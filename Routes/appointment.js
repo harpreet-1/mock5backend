@@ -38,4 +38,16 @@ appointmentRouter.get("/", async (req, res) => {
   }
 });
 
+appointmentRouter.delete("/:id", async (req, res) => {
+  try {
+    let appointments = await appointmentModel.findByIdAndDelete(req.params.id);
+
+    return res
+      .status(200)
+      .json({ status: "ok", message: "appointment deleted" });
+  } catch (error) {
+    console.log("error from  delete appointment  **************", error);
+    res.status(500).json({ error: "internal server error" });
+  }
+});
 module.exports = appointmentRouter;
