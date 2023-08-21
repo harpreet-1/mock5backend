@@ -13,7 +13,7 @@ userRouter.post("/signup", async (req, res) => {
         .status(200)
         .json({ message: "user already exist please login", user });
     }
-    const hash = bcrypt.hash(password, 4);
+    const hash = await bcrypt.hash(password, 4);
     user = await userModel.create({ email, password: hash });
 
     return res
@@ -32,7 +32,7 @@ userRouter.post("/login", async (req, res) => {
     if (!user) {
       return res.status(400).json({ message: "Invalid Credentials" });
     }
-    const result = bcrypt.compare(password, user.password);
+    const result = await bcrypt.compare(password, user.password);
     // const result = password === user.password;
 
     if (!result) {
