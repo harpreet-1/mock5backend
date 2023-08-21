@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 userRouter.post("/signup", async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await userModel.find({ email });
+    const user = await userModel.findOne({ email });
 
     if (user) {
       return res
