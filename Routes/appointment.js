@@ -14,5 +14,28 @@ appointmentRouter.post("/", async (req, res) => {
     res.status(500).json({ error: "internal server error" });
   }
 });
+appointmentRouter.get("/", async (req, res) => {
+  try {
+    let { specialization, order, search } = req.query;
+
+    let query = {};
+
+    if (specialization) {
+      query.specialization = specialization;
+    }
+    if (order) {
+      order = { date: order };
+    } else {
+      order = { createdAt: 1 };
+    }
+
+    let appointments = await appointmentModel.find(query).sort(order);
+
+    return res.status(201).json({ status: "ok", appointments });
+  } catch (error) {
+    console.log("error from appointment post **************", error);
+    res.status(500).json({ error: "internal server error" });
+  }
+});
 
 module.exports = appointmentRouter;
